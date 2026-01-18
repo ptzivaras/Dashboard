@@ -20,7 +20,7 @@ app.use(cors());
 app.use(express.json());
 
 // Auth routes
-app.use("/api/auth/**", (req, res) => auth.handler(req, res));
+app.all(/^\/api\/auth\/.*/, (req, res) => auth.handler(req, res));
 
 // API routes
 app.use("/api/departments", departmentsRouter);
