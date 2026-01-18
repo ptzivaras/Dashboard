@@ -8,6 +8,7 @@ import subjectsRouter from "./routes/subjects.js";
 import classesRouter from "./routes/classes.js";
 import enrollmentsRouter from "./routes/enrollments.js";
 import usersRouter from "./routes/users.js";
+import statsRouter from "./routes/stats.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use("/api/subjects", subjectsRouter);
 app.use("/api/classes", classesRouter);
 app.use("/api/enrollments", enrollmentsRouter);
 app.use("/api/users", usersRouter);
+app.use("/api/stats", statsRouter);
 
 // Health check route
 app.get("/health", (req, res) => {
