@@ -1,108 +1,106 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { Users, BookOpen, Building2, GraduationCap } from "lucide-react";
+import { Users, BookOpen, GraduationCap, School, Loader2 } from "lucide-react";
 
-interface Stats {
-  users: number;
-  teachers: number;
-  admins: number;
-  subjects: number;
-  departments: number;
-  classes: number;
-}
+type Stats = {
+  totalDepartments: number;
+  totalSubjects: number;
+  totalClasses: number;
+  totalEnrollments: number;
+  totalUsers: number;
+  activeClasses: number;
+  verifiedUsers: number;
+};
 
-export const Dashboard = () => {
+export function Dashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:8000/api/stats/overview")
-      .then((res) => res.json())
-      .then((data) => {
-        setStats(data.data);
+    const fetchStats = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/api/stats");
+        if (response.ok) {
+          const data = await response.json();
+          setStats(data);
+        }
+      } catch (error) {
+        console.error("Error fetching stats:", error);
+      } finally {
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch stats:", err);
-        setLoading(false);
-      });
-  }, []);
+      }
+    };
 
-  const statCards = [
-    {
-      title: "Total Users",
-      value: stats?.users || 0,
-      icon: Users,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
-    },
-    {
-      title: "Teachers",
-      value: stats?.teachers || 0,
-      icon: GraduationCap,
-      color: "text-green-600",
-      bgColor: "bg-green-50",
-    },
-    {
-      title: "Departments",
-      value: stats?.departments || 0,
-      icon: Building2,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
-    },
-    {
-      title: "Subjects",
-      value: stats?.subjects || 0,
-      icon: BookOpen,
-      color: "text-orange-600",
-      bgColor: "bg-orange-50",
-    },
-    {
-      title: "Classes",
-      value: stats?.classes || 0,
-      icon: Users,
-      color: "text-pink-600",
-      bgColor: "bg-pink-50",
-    },
-    {
-      title: "Admins",
-      value: stats?.admins || 0,
-      icon: GraduationCap,
-      color: "text-red-600",
-      bgColor: "bg-red-50",
-    },
-  ];
+    fetchStats();
+  }, []);
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <div>
-          <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground mt-2">
-            Welcome to the Classroom Management System
-          </p>
-        </div>
-        <div className="text-center py-12">Loading...</div>
+      <div className="flex items-center justify-center h-[60vh]">
+        <Loader2 className="h-12 w-12 animate-spin text-primary" />
       </div>
     );
   }
 
+  const statCards = [
+    {
+      title: "Total Users",
+      value: stats?.totalUsers || 0,
+      icon: Users,
+      description: `${stats?.verifiedUsers || 0} verified`,
+      color: "text-blue-600 dark:text-blue-400",
+      bgColor: "bg-blue-500/10",
+    },
+    {
+      title: "Departments",
+      value: stats?.totalDepartments || 0,
+      icon: School,
+      description: "Academic departments",
+      color: "text-purple-600 dark:text-purple-400",
+      bgColor: "bg-purple-500/10",
+    },
+    {
+      title: "Subjects",
+      value: stats?.totalSubjects || 0,
+      icon: BookOpen,
+      description: "Available subjects",
+      color: "text-green-600 dark:text-green-400",
+      bgColor: "bg-green-500/10",
+    },
+    {
+      title: "Classes",
+      value: stats?.totalClasses || 0,
+      icon: GraduationCap,
+      description: `${stats?.activeClasses || 0} active`,
+      color: "text-orange-600 dark:text-orange-400",
+      bgColor: "bg-orange-500/10",
+    },
+    {
+      title: "Enrollments",
+      value: stats?.totalEnrollments || 0,
+      icon: Users,
+      description: "Student enrollments",
+      color: "text-pink-600 dark:text-pink-400",
+      bgColor: "bg-pink-500/10",
+    },
+  ];
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard</h1>
+        <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground mt-2">
           Welcome to the Classroom Management System
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {statCards.map((stat) => {
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {statCards.map((stat, index) => {
           const Icon = stat.icon;
           return (
-            <Card key={stat.title}>
+            <Card key={index} className="hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle className="text-sm font-medium">
                   {stat.title}
                 </CardTitle>
                 <div className={`p-2 rounded-lg ${stat.bgColor}`}>
@@ -111,44 +109,47 @@ export const Dashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-3xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {stat.description}
+                </p>
               </CardContent>
             </Card>
           );
         })}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <a
-              href="/departments"
+              href="/classes/create"
               className="block p-3 rounded-lg hover:bg-accent transition-colors"
             >
-              <div className="font-medium">Manage Departments</div>
-              <div className="text-sm text-muted-foreground">
-                Add, edit, or remove departments
-              </div>
+              <p className="font-medium">Create New Class</p>
+              <p className="text-sm text-muted-foreground">
+                Set up a new class for students
+              </p>
             </a>
             <a
-              href="/subjects"
+              href="/enrollments/create"
               className="block p-3 rounded-lg hover:bg-accent transition-colors"
             >
-              <div className="font-medium">Manage Subjects</div>
-              <div className="text-sm text-muted-foreground">
-                View and organize subjects
-              </div>
+              <p className="font-medium">Enroll Student</p>
+              <p className="text-sm text-muted-foreground">
+                Add a student to an existing class
+              </p>
             </a>
             <a
-              href="/classes"
+              href="/subjects/create"
               className="block p-3 rounded-lg hover:bg-accent transition-colors"
             >
-              <div className="font-medium">Manage Classes</div>
-              <div className="text-sm text-muted-foreground">
-                Create and manage classes
-              </div>
+              <p className="font-medium">Add Subject</p>
+              <p className="text-sm text-muted-foreground">
+                Create a new subject in a department
+              </p>
             </a>
           </CardContent>
         </Card>
@@ -157,25 +158,50 @@ export const Dashboard = () => {
           <CardHeader>
             <CardTitle>System Overview</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Student Users</span>
-                <span className="font-semibold">
-                  {(stats?.users || 0) - (stats?.teachers || 0) - (stats?.admins || 0)}
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-muted-foreground">
+                Class Utilization
+              </span>
+              <span className="font-medium">
+                {stats?.totalEnrollments && stats?.totalClasses
+                  ? Math.round(
+                      (stats.totalEnrollments / (stats.totalClasses * 30)) * 100
+                    )
+                  : 0}
+                %
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
+              <div
+                className="bg-green-500 h-2 rounded-full transition-all"
+                style={{
+                  width: `${
+                    stats?.totalEnrollments && stats?.totalClasses
+                      ? Math.min(
+                          (stats.totalEnrollments / (stats.totalClasses * 30)) *
+                            100,
+                          100
+                        )
+                      : 0
+                  }%`,
+                }}
+              />
+            </div>
+            <div className="pt-2 space-y-2">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Active Classes</span>
+                <span className="font-medium">{stats?.activeClasses || 0}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Total Subjects</span>
+                <span className="font-medium">{stats?.totalSubjects || 0}</span>
+              </div>
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-muted-foreground">Departments</span>
+                <span className="font-medium">
+                  {stats?.totalDepartments || 0}
                 </span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Teaching Staff</span>
-                <span className="font-semibold">{stats?.teachers || 0}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Administrators</span>
-                <span className="font-semibold">{stats?.admins || 0}</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">Active Classes</span>
-                <span className="font-semibold">{stats?.classes || 0}</span>
               </div>
             </div>
           </CardContent>
@@ -183,4 +209,4 @@ export const Dashboard = () => {
       </div>
     </div>
   );
-};
+}
