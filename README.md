@@ -1,22 +1,73 @@
-# Classroom Management Dashboard
+# 🎓 Classroom Management Dashboard
 
-A full-stack classroom management system for educational institutions.
+A modern, full-stack classroom management system built with React 19, TypeScript, Express, and PostgreSQL.
 
-## Features
+## ✨ Features
 
-- 👥 Student and Faculty Management
-- 📚 Department and Subject Organization
-- 📝 Class and Enrollment Tracking
-- 📊 Analytics and Statistics
-- 🔐 Secure Authentication
+✅ **Department Management** - Create, edit, view, and organize academic departments  
+✅ **Subject Management** - Manage subjects with department relations  
+✅ **Class Management** - Full CRUD with enrollment tracking & capacity validation  
+✅ **Enrollment System** - Student enrollment with real-time capacity checks  
+✅ **User Management** - Role-based administration (Admin/Teacher/Student)  
+✅ **Real-time Dashboard** - Live statistics and system metrics  
+✅ **Responsive Design** - Mobile-friendly with Tailwind CSS v4  
+✅ **Dark Mode Support** - Built-in theme switching  
 
-## Project Structure
+## 🛠️ Tech Stack
+
+### Frontend
+- React 19.2.0 with TypeScript
+- Vite - Lightning-fast build tool
+- Tailwind CSS v4
+- Refine Framework
+- shadcn/ui components
+- React Router v7
+- TanStack Table v8
+
+### Backend
+- Express.js v5
+- Drizzle ORM with PostgreSQL (Neon)
+- Better Auth for authentication
+- TypeScript throughout
+
+## 🚀 Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/ptzivaras/Dashboard.git
+cd Dashboard
+
+# Install dependencies
+cd ui && npm install
+cd ../server && npm install
+
+# Set up environment variables
+# server/.env: DATABASE_URL, BETTER_AUTH_SECRET
+
+# Run database migrations
+cd server && npm run db:push
+
+# Start servers
+cd server && npm run dev  # Port 8000
+cd ui && npm run dev      # Port 5173
+```
+
+## 📁 Project Structure
 
 ```
 Dashboard/
 ├── ui/          # React frontend application
 └── server/      # Express backend API
 ```
+
+## 👨‍💻 Author
+
+**Panagiotis Tzivaras**  
+GitHub: [@ptzivaras](https://github.com/ptzivaras)
+
+---
+
+Built with ❤️ using modern web technologies
 
 ## Tech Stack
 
