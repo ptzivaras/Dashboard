@@ -294,10 +294,11 @@ export default function EnrollmentCreate() {
                   type="button"
                   variant="outline"
                   onClick={() => navigate("/enrollments")}
+                  disabled={loading}
                 >
                   Cancel
                 </Button>
-                <Button type="submit" disabled={loading || isFull}>
+                <Button type="submit" disabled={loading || isFull || students.length === 0}>
                   <Save className="mr-2 h-4 w-4" />
                   {loading ? "Enrolling..." : "Enroll Student"}
                 </Button>

@@ -87,7 +87,7 @@ export default function DepartmentCreate() {
                 placeholder="e.g., CS, EE, ME"
                 value={formData.code}
                 onChange={(e) =>
-                  setFormData({ ...formData, code: e.target.value })
+                  setFormData({ ...formData, code: e.target.value.trim().toUpperCase() })
                 }
                 required
                 maxLength={50}
