@@ -11,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { ArrowLeft, Save, Loader2, Users } from "lucide-react";
+import { ArrowLeft, Save, Loader2, Users, AlertCircle } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 
 type User = {
@@ -41,6 +41,7 @@ type Class = {
 export default function EnrollmentCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [students, setStudents] = useState<User[]>([]);
   const [classes, setClasses] = useState<Class[]>([]);
   const [fetchingData, setFetchingData] = useState(true);
@@ -79,6 +80,7 @@ export default function EnrollmentCreate() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8000/api/enrollments", {
@@ -95,9 +97,11 @@ export default function EnrollmentCreate() {
       if (response.ok) {
         navigate("/enrollments");
       } else {
-        console.error("Failed to create enrollment");
+        const data = await response.json();
+        setError(data.message || "Failed to create enrollment");
       }
     } catch (error) {
+      setError("Network error. Please check your connection.");
       console.error("Error creating enrollment:", error);
     } finally {
       setLoading(false);
@@ -126,6 +130,16 @@ export default function EnrollmentCreate() {
           <h1 className="text-3xl font-bold mt-2">Enroll Student</h1>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg flex items-start gap-3 max-w-2xl">
+          <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium">Error</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        </div>
+      )}
 
       <Card className="max-w-2xl">
         <CardHeader>

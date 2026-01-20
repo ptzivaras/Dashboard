@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../components/ui/select";
-import { ArrowLeft, Save, Loader2 } from "lucide-react";
+import { ArrowLeft, Save, Loader2, AlertCircle } from "lucide-react";
 
 type Subject = {
   id: number;
@@ -30,6 +30,7 @@ type User = {
 export default function ClassCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [fetchingData, setFetchingData] = useState(true);
@@ -71,6 +72,7 @@ export default function ClassCreate() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8000/api/classes", {
@@ -88,9 +90,11 @@ export default function ClassCreate() {
       if (response.ok) {
         navigate("/classes");
       } else {
-        console.error("Failed to create class");
+        const data = await response.json();
+        setError(data.message || "Failed to create class");
       }
     } catch (error) {
+      setError("Network error. Please check your connection.");
       console.error("Error creating class:", error);
     } finally {
       setLoading(false);
@@ -112,6 +116,16 @@ export default function ClassCreate() {
           <h1 className="text-3xl font-bold mt-2">Create Class</h1>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg flex items-start gap-3 max-w-2xl">
+          <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium">Error</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        </div>
+      )}
 
       <Card className="max-w-2xl">
         <CardHeader>

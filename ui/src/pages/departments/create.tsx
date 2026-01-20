@@ -11,6 +11,7 @@ import { ArrowLeft, Save } from "lucide-react";
 export default function DepartmentCreate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     code: "",
     name: "",
@@ -20,6 +21,7 @@ export default function DepartmentCreate() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     try {
       const response = await fetch("http://localhost:8000/api/departments", {
@@ -33,9 +35,11 @@ export default function DepartmentCreate() {
       if (response.ok) {
         navigate("/departments");
       } else {
-        console.error("Failed to create department");
+        const data = await response.json();
+        setError(data.message || "Failed to create department");
       }
     } catch (error) {
+      setError("Network error. Please check your connection.");
       console.error("Error creating department:", error);
     } finally {
       setLoading(false);
@@ -57,6 +61,16 @@ export default function DepartmentCreate() {
           <h1 className="text-3xl font-bold mt-2">Create Department</h1>
         </div>
       </div>
+
+      {error && (
+        <div className="bg-destructive/10 border border-destructive/20 text-destructive px-4 py-3 rounded-lg flex items-start gap-3 max-w-2xl">
+          <AlertCircle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+          <div>
+            <p className="font-medium">Error</p>
+            <p className="text-sm">{error}</p>
+          </div>
+        </div>
+      )}
 
       <Card className="max-w-2xl">
         <CardHeader>
