@@ -3,13 +3,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card"
 import { Users, BookOpen, GraduationCap, School, Loader2 } from "lucide-react";
 
 type Stats = {
-  totalDepartments: number;
-  totalSubjects: number;
-  totalClasses: number;
-  totalEnrollments: number;
-  totalUsers: number;
-  activeClasses: number;
-  verifiedUsers: number;
+  users: number;
+  teachers: number;
+  admins: number;
+  subjects: number;
+  departments: number;
+  classes: number;
 };
 
 export function Dashboard() {
@@ -19,10 +18,10 @@ export function Dashboard() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/stats");
+        const response = await fetch("http://localhost:8000/api/stats/overview");
         if (response.ok) {
           const data = await response.json();
-          setStats(data);
+          setStats(data.data);
         }
       } catch (error) {
         console.error("Error fetching stats:", error);
@@ -45,15 +44,15 @@ export function Dashboard() {
   const statCards = [
     {
       title: "Total Users",
-      value: stats?.totalUsers || 0,
+      value: stats?.users || 0,
       icon: Users,
-      description: `${stats?.verifiedUsers || 0} verified`,
+      description: `${stats?.teachers || 0} teachers, ${stats?.admins || 0} admins`,
       color: "text-blue-600 dark:text-blue-400",
       bgColor: "bg-blue-500/10",
     },
     {
       title: "Departments",
-      value: stats?.totalDepartments || 0,
+      value: stats?.departments || 0,
       icon: School,
       description: "Academic departments",
       color: "text-purple-600 dark:text-purple-400",
@@ -61,7 +60,7 @@ export function Dashboard() {
     },
     {
       title: "Subjects",
-      value: stats?.totalSubjects || 0,
+      value: stats?.subjects || 0,
       icon: BookOpen,
       description: "Available subjects",
       color: "text-green-600 dark:text-green-400",
@@ -69,15 +68,12 @@ export function Dashboard() {
     },
     {
       title: "Classes",
-      value: stats?.totalClasses || 0,
+      value: stats?.classes || 0,
       icon: GraduationCap,
-      description: `${stats?.activeClasses || 0} active`,
+      description: "Active classes",
       color: "text-orange-600 dark:text-orange-400",
       bgColor: "bg-orange-500/10",
     },
-    {
-      title: "Enrollments",
-      value: stats?.totalEnrollments || 0,
       icon: Users,
       description: "Student enrollments",
       color: "text-pink-600 dark:text-pink-400",

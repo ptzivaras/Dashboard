@@ -54,7 +54,6 @@ export const ShowButton = React.forwardRef<
       <Button {...rest} ref={ref} disabled={isDisabled} asChild>
         <LinkComponent
           to={to}
-          replace={false}
           onClick={(e: React.PointerEvent<HTMLButtonElement>) => {
             if (isDisabled) {
               e.preventDefault();
