@@ -64,15 +64,6 @@ Dashboard/
 └── server/      # Express backend API
 ```
 
-## 👨‍💻 Author
-
-**Panagiotis Tzivaras**  
-GitHub: [@ptzivaras](https://github.com/ptzivaras)
-
----
-
-Built with ❤️ using modern web technologies
-
 ## Tech Stack
 
 ### Frontend
