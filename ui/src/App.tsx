@@ -6,6 +6,7 @@ import { Register } from "./pages/register";
 import { Dashboard } from "./pages/dashboard";
 import DepartmentsList from "./pages/departments/list";
 import SubjectsList from "./pages/subjects/list";
+import ClassesList from "./pages/classes/list";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/departments" element={<DepartmentsList />} />
           <Route path="/subjects" element={<SubjectsList />} />
+          <Route path="/classes" element={<ClassesList />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Refine>
