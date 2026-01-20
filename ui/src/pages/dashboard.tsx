@@ -74,11 +74,6 @@ export function Dashboard() {
       color: "text-orange-600 dark:text-orange-400",
       bgColor: "bg-orange-500/10",
     },
-      icon: Users,
-      description: "Student enrollments",
-      color: "text-pink-600 dark:text-pink-400",
-      bgColor: "bg-pink-500/10",
-    },
   ];
 
   return (
