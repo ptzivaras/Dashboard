@@ -9,6 +9,7 @@ import SubjectsList from "./pages/subjects/list";
 import ClassesList from "./pages/classes/list";
 import EnrollmentsList from "./pages/enrollments/list";
 import UsersList from "./pages/users/list";
+import { MainLayout } from "./components/layout/main-layout";
 
 function App() {
   return (
@@ -41,12 +42,54 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/departments" element={<DepartmentsList />} />
-          <Route path="/subjects" element={<SubjectsList />} />
-          <Route path="/classes" element={<ClassesList />} />
-          <Route path="/enrollments" element={<EnrollmentsList />} />
-          <Route path="/users" element={<UsersList />} />
+          <Route
+            path="/dashboard"
+            element={
+              <MainLayout>
+                <Dashboard />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/departments"
+            element={
+              <MainLayout>
+                <DepartmentsList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/subjects"
+            element={
+              <MainLayout>
+                <SubjectsList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/classes"
+            element={
+              <MainLayout>
+                <ClassesList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/enrollments"
+            element={
+              <MainLayout>
+                <EnrollmentsList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/users"
+            element={
+              <MainLayout>
+                <UsersList />
+              </MainLayout>
+            }
+          />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Refine>
