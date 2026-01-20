@@ -5,6 +5,9 @@ import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Dashboard } from "./pages/dashboard";
 import DepartmentsList from "./pages/departments/list";
+import DepartmentCreate from "./pages/departments/create";
+import DepartmentEdit from "./pages/departments/edit";
+import DepartmentShow from "./pages/departments/show";
 import SubjectsList from "./pages/subjects/list";
 import ClassesList from "./pages/classes/list";
 import EnrollmentsList from "./pages/enrollments/list";
@@ -20,6 +23,9 @@ function App() {
           {
             name: "departments",
             list: "/departments",
+            create: "/departments/create",
+            edit: "/departments/:id/edit",
+            show: "/departments/:id",
           },
           {
             name: "subjects",
@@ -55,6 +61,30 @@ function App() {
             element={
               <MainLayout>
                 <DepartmentsList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/departments/create"
+            element={
+              <MainLayout>
+                <DepartmentCreate />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/departments/:id"
+            element={
+              <MainLayout>
+                <DepartmentShow />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/departments/:id/edit"
+            element={
+              <MainLayout>
+                <DepartmentEdit />
               </MainLayout>
             }
           />
