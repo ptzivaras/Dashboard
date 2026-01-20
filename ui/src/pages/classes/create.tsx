@@ -28,8 +28,7 @@ type User = {
 };
 
 export default function ClassCreate() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();  const { toast } = useToast();  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
@@ -88,13 +87,29 @@ export default function ClassCreate() {
       });
 
       if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Class created successfully",
+        });
         navigate("/classes");
       } else {
         const data = await response.json();
-        setError(data.message || "Failed to create class");
+        const errorMsg = data.message || "Failed to create class";
+        setError(errorMsg);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: errorMsg,
+        });
       }
     } catch (error) {
-      setError("Network error. Please check your connection.");
+      const errorMsg = "Network error. Please check your connection.";
+      setError(errorMsg);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: errorMsg,
+      });
       console.error("Error creating class:", error);
     } finally {
       setLoading(false);

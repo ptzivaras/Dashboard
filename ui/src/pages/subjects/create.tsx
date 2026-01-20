@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "../../components/ui/select";
 import { ArrowLeft, Save, Loader2, AlertCircle } from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
 
 type Department = {
   id: number;
@@ -23,6 +24,7 @@ type Department = {
 
 export default function SubjectCreate() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
@@ -70,13 +72,29 @@ export default function SubjectCreate() {
       });
 
       if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Subject created successfully",
+        });
         navigate("/subjects");
       } else {
         const data = await response.json();
-        setError(data.message || "Failed to create subject");
+        const errorMsg = data.message || "Failed to create subject";
+        setError(errorMsg);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: errorMsg,
+        });
       }
     } catch (error) {
-      setError("Network error. Please check your connection.");
+      const errorMsg = "Network error. Please check your connection.";
+      setError(errorMsg);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: errorMsg,
+      });
       console.error("Error creating subject:", error);
     } finally {
       setLoading(false);

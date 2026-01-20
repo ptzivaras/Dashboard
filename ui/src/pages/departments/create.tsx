@@ -6,10 +6,12 @@ import { Label } from "../../components/ui/label";
 import { Textarea } from "../../components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Breadcrumb } from "../../components/refine-ui/layout/breadcrumb";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, AlertCircle } from "lucide-react";
+import { useToast } from "../../hooks/use-toast";
 
 export default function DepartmentCreate() {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -33,13 +35,29 @@ export default function DepartmentCreate() {
       });
 
       if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Department created successfully",
+        });
         navigate("/departments");
       } else {
         const data = await response.json();
-        setError(data.message || "Failed to create department");
+        const errorMsg = data.message || "Failed to create department";
+        setError(errorMsg);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: errorMsg,
+        });
       }
     } catch (error) {
-      setError("Network error. Please check your connection.");
+      const errorMsg = "Network error. Please check your connection.";
+      setError(errorMsg);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: errorMsg,
+      });
       console.error("Error creating department:", error);
     } finally {
       setLoading(false);

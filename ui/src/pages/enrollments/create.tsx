@@ -39,8 +39,7 @@ type Class = {
 };
 
 export default function EnrollmentCreate() {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();  const { toast } = useToast();  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [students, setStudents] = useState<User[]>([]);
   const [classes, setClasses] = useState<Class[]>([]);
@@ -95,13 +94,29 @@ export default function EnrollmentCreate() {
       });
 
       if (response.ok) {
+        toast({
+          title: "Success",
+          description: "Enrollment created successfully",
+        });
         navigate("/enrollments");
       } else {
         const data = await response.json();
-        setError(data.message || "Failed to create enrollment");
+        const errorMsg = data.message || "Failed to create enrollment";
+        setError(errorMsg);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: errorMsg,
+        });
       }
     } catch (error) {
-      setError("Network error. Please check your connection.");
+      const errorMsg = "Network error. Please check your connection.";
+      setError(errorMsg);
+      toast({
+        variant: "destructive",
+        title: "Network Error",
+        description: errorMsg,
+      });
       console.error("Error creating enrollment:", error);
     } finally {
       setLoading(false);

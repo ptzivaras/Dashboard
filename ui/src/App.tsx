@@ -21,6 +21,7 @@ import EnrollmentCreate from "./pages/enrollments/create";
 import UsersList from "./pages/users/list";
 import UserEdit from "./pages/users/edit";
 import { MainLayout } from "./components/layout/main-layout";
+import { Toaster } from "./components/toaster";
 
 function App() {
   return (
@@ -203,6 +204,7 @@ function App() {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Refine>
+      <Toaster />
     </BrowserRouter>
   );
 }
