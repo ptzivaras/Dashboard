@@ -13,6 +13,9 @@ import SubjectCreate from "./pages/subjects/create";
 import SubjectEdit from "./pages/subjects/edit";
 import SubjectShow from "./pages/subjects/show";
 import ClassesList from "./pages/classes/list";
+import ClassCreate from "./pages/classes/create";
+import ClassEdit from "./pages/classes/edit";
+import ClassShow from "./pages/classes/show";
 import EnrollmentsList from "./pages/enrollments/list";
 import UsersList from "./pages/users/list";
 import { MainLayout } from "./components/layout/main-layout";
@@ -40,6 +43,9 @@ function App() {
           {
             name: "classes",
             list: "/classes",
+            create: "/classes/create",
+            edit: "/classes/:id/edit",
+            show: "/classes/:id",
           },
           {
             name: "enrollments",
@@ -131,6 +137,30 @@ function App() {
             element={
               <MainLayout>
                 <ClassesList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/classes/create"
+            element={
+              <MainLayout>
+                <ClassCreate />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/classes/:id"
+            element={
+              <MainLayout>
+                <ClassShow />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/classes/:id/edit"
+            element={
+              <MainLayout>
+                <ClassEdit />
               </MainLayout>
             }
           />
