@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+* {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -16,10 +17,33 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
+}
+
+/* Custom utility classes for pages */
+.page-title {
+  @apply text-3xl font-bold text-foreground;
+}
+
+.intro-row {
+  @apply flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.actions-row {
+  @apply flex flex-col gap-2 sm:flex-row sm:items-center;
+}
+
+.search-field {
+  @apply relative flex-1 min-w-[200px];
+}
+
+.search-icon {
+  @apply absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none;
+}
+
+.column-title {
+  @apply text-sm font-semibold text-foreground;
 }
 
 h1 {

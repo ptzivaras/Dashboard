@@ -4,6 +4,8 @@ import dataProvider from "@refinedev/simple-rest";
 import { Login } from "./pages/login";
 import { Register } from "./pages/register";
 import { Dashboard } from "./pages/dashboard";
+import DepartmentsList from "./pages/departments/list";
+import SubjectsList from "./pages/subjects/list";
 
 function App() {
   return (
@@ -37,6 +39,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/departments" element={<DepartmentsList />} />
+          <Route path="/subjects" element={<SubjectsList />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Refine>
