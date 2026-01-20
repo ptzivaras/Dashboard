@@ -22,11 +22,13 @@ import UsersList from "./pages/users/list";
 import UserEdit from "./pages/users/edit";
 import { MainLayout } from "./components/layout/main-layout";
 import { Toaster } from "./components/toaster";
+import { ThemeProvider } from "./components/theme-provider";
 
 function App() {
   return (
     <BrowserRouter>
-      <Refine
+      <ThemeProvider defaultTheme="light" storageKey="dashboard-theme">
+        <Refine
         dataProvider={dataProvider("http://localhost:8000/api")}
         resources={[
           {
@@ -205,6 +207,7 @@ function App() {
         </Routes>
       </Refine>
       <Toaster />
+      </ThemeProvider>
     </BrowserRouter>
   );
 }

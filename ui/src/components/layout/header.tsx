@@ -1,6 +1,7 @@
 import { Bell, Search } from "lucide-react";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { ThemeToggle } from "../theme-toggle";
 
 export function Header() {
   return (
@@ -17,6 +18,7 @@ export function Header() {
       </div>
 
       <div className="flex items-center gap-4">
+        <ThemeToggle />
         <Button variant="ghost" size="icon" className="relative">
           <Bell className="h-5 w-5" />
           <span className="absolute right-1 top-1 flex h-2 w-2">
