@@ -19,6 +19,7 @@ import ClassShow from "./pages/classes/show";
 import EnrollmentsList from "./pages/enrollments/list";
 import EnrollmentCreate from "./pages/enrollments/create";
 import UsersList from "./pages/users/list";
+import UserEdit from "./pages/users/edit";
 import { MainLayout } from "./components/layout/main-layout";
 
 function App() {
@@ -56,6 +57,7 @@ function App() {
           {
             name: "users",
             list: "/users",
+            edit: "/users/:id/edit",
           },
         ]}
       >
@@ -187,6 +189,14 @@ function App() {
             element={
               <MainLayout>
                 <UsersList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/users/:id/edit"
+            element={
+              <MainLayout>
+                <UserEdit />
               </MainLayout>
             }
           />
