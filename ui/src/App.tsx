@@ -8,6 +8,7 @@ import DepartmentsList from "./pages/departments/list";
 import SubjectsList from "./pages/subjects/list";
 import ClassesList from "./pages/classes/list";
 import EnrollmentsList from "./pages/enrollments/list";
+import UsersList from "./pages/users/list";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="/subjects" element={<SubjectsList />} />
           <Route path="/classes" element={<ClassesList />} />
           <Route path="/enrollments" element={<EnrollmentsList />} />
+          <Route path="/users" element={<UsersList />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </Refine>
