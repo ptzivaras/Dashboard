@@ -9,6 +9,9 @@ import DepartmentCreate from "./pages/departments/create";
 import DepartmentEdit from "./pages/departments/edit";
 import DepartmentShow from "./pages/departments/show";
 import SubjectsList from "./pages/subjects/list";
+import SubjectCreate from "./pages/subjects/create";
+import SubjectEdit from "./pages/subjects/edit";
+import SubjectShow from "./pages/subjects/show";
 import ClassesList from "./pages/classes/list";
 import EnrollmentsList from "./pages/enrollments/list";
 import UsersList from "./pages/users/list";
@@ -30,6 +33,9 @@ function App() {
           {
             name: "subjects",
             list: "/subjects",
+            create: "/subjects/create",
+            edit: "/subjects/:id/edit",
+            show: "/subjects/:id",
           },
           {
             name: "classes",
@@ -93,6 +99,30 @@ function App() {
             element={
               <MainLayout>
                 <SubjectsList />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/subjects/create"
+            element={
+              <MainLayout>
+                <SubjectCreate />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/subjects/:id"
+            element={
+              <MainLayout>
+                <SubjectShow />
+              </MainLayout>
+            }
+          />
+          <Route
+            path="/subjects/:id/edit"
+            element={
+              <MainLayout>
+                <SubjectEdit />
               </MainLayout>
             }
           />
